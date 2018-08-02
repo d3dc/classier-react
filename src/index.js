@@ -1,9 +1,10 @@
 import React from 'react'
 
-function toStyleName(name, config) {
+function toStyleName(name) {
   // Might need to customize the separator
-  return `${name}-${config}`
+  return name
     .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
+    .map((c, i) => (i > 0 ? c.toLowerCase() : c))
     .join('-')
 }
 
@@ -11,15 +12,11 @@ function toClassNames(props) {
   return Object.keys(props)
     .filter(name => !!props[name])
     .map(name => {
-      if (value === true) {
-        return name
+      if (Array.isArray(props[name])) {
+        return props[name].map(inner => toStyleName(name, inner)).join(' ')
       }
 
-      if (Array.isArray(value)) {
-        return value.map(inner => toStyleName(name, inner)).join(' ')
-      }
-
-      return toStyleName(name, value)
+      return toStyleName(props[name] === true ? name : `${name}-${props[name]}`)
     })
 }
 
