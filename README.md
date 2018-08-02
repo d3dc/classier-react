@@ -40,20 +40,42 @@ const CardTitle = ({ size = 5, ...rest }) => (
 const CardBody = props => <Box px={6} py={4} {...props} />
 ```
 
+## Getting started
+
 See the [TailwindCSS Recipe](docs/recipes/tailwind) for an example configuration.
+
+## Passing down styles
+
+`<Comp />` only injects the props it merges, it can't make sure they are rendered. If you're wrapping or writing a component, it's a good idea to pass any props you don't use onward to what is rendered.
+
+Most components are already written this way.
+
+```jsx
+const MyComponent = ({ option, ...rest }) => <div {...rest} />
+```
+
+## CSS Modules
+
+`classier-react` supports using CSS Modules through dynamic object keys:
+
+```jsx
+import styles from './styles.css'
+
+<Box {...{
+  [styles.fontSize]: 'md'
+}} {...rest} />
+```
 
 ## API
 
-### <Box />
+### `<Box />`
 
 Renders a tag with its unknown props translated to CSS classes.
 
 #### props
 
-- _is_: the tag to render as (\_default: 'div')
+- **is**: the tag to render as (_default: 'div'_)
 
-### <Comp />
+### `<Comp />`
 
-A _HOC_ for injecting or "composing" style props.
-
-Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
