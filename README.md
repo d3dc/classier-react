@@ -1,10 +1,10 @@
-# Classier React
+# 🥂 🎩 Classier React 🎩 🥂
 
-We keep putting styles in Javascript. We've developed this rather complex toolchain to create tools like [Rebass](jxnblk/rebass). In the end, styles aren't re-used and they don't _cascade_!
+We keep putting styles in Javascript. We've developed this rather complex toolchain to create tools like [Rebass](jxnblk/rebass). But with this approach, styles aren't re-used and they don't _cascade_!
 
-Awesome style libraries already exist, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
+Awesome style libraries already exist for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
 
-Classier React solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
+`classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
 Think of it like weaponized `classnames`.
 
@@ -20,6 +20,8 @@ You'll have to have configured your build-toolchain with a style loader and have
 
 Here's the basic usage with utility classes from [TailwindCSS](https://tailwindcss.com/)
 
+You define some presentational components:
+
 ```jsx
 import { Box, Comp } from 'classier-react'
 
@@ -34,10 +36,20 @@ const CardHeroImage = props => (
 )
 
 const CardTitle = ({ size = 5, ...rest }) => (
-  <Box is={'h' + size} font="bold" text="xl" mb={2} {...rest} />
+  <Box is={'h' + size} fontBold text="xl" mb={2} {...rest} />
 )
 
 const CardBody = props => <Box px={6} py={4} {...props} />
+```
+
+And then consume them:
+
+```js
+<Card maxW="md">
+  <CardHeroImage src={image} border={false} />
+  <CardTitle>So Classy</CardTitle>
+  <CardBody>Lorem ipsum...</CardBody>
+</Card>
 ```
 
 ## Getting started
