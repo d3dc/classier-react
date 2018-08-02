@@ -1,23 +1,14 @@
 {
   "name": "classier-react",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Use stylesheets for styles, not Javascript",
-  "keywords": [
-    "react",
-    "classnames",
-    "styles",
-    "just",
-    "use",
-    "css"
-  ],
+  "keywords": ["react", "classnames", "styles", "just", "use", "css"],
   "homepage": "https://github.com/d3dc/classier-react",
   "bugs": {
     "url": "git+https://github.com/d3dc/classier-react"
   },
   "license": "ISC",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "main": "dist/classier-react.cjs.js",
   "module": "dist/classier-react.esm.js",
   "repository": {
@@ -45,7 +36,5 @@
   "peerDependencies": {
     "react": "^16.0.0"
   },
-  "authors": [
-    "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)"
-  ]
+  "authors": ["Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)"]
 }

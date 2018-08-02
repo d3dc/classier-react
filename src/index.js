@@ -1,19 +1,26 @@
 import React from 'react'
 
-function toStyleName(name) {
-  return `${name}`
+function toStyleName(name, config) {
+  // Might need to customize the separator
+  return `${name}-${config}`
     .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
     .join('-')
 }
 
 function toClassNames(props) {
-  const classNames = Object.keys(props)
+  return Object.keys(props)
     .filter(name => !!props[name])
-    .map(name =>
-      toStyleName(props[name] === true ? name : `${name}-${props[name]}`)
-    )
+    .map(name => {
+      if (value === true) {
+        return name
+      }
 
-  return classNames
+      if (Array.isArray(value)) {
+        return value.map(inner => toStyleName(name, inner)).join(' ')
+      }
+
+      return toStyleName(name, value)
+    })
 }
 
 function cx(propClasses, ...extraClassNames) {
