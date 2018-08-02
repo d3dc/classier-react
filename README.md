@@ -1,6 +1,6 @@
 # 🥂 🎩 Classier React 🎩 🥂
 
-We keep putting styles in Javascript. We've developed this rather complex toolchain to create tools like [Rebass](jxnblk/rebass). But with this approach, styles aren't re-used and they don't _cascade_!
+We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But most browser apps don't need an alternative to CSS, and without it, styles aren't re-used and they don't _cascade_!
 
 Awesome style libraries already exist for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
 
@@ -29,9 +29,9 @@ const Card = props => (
   <Box rounded shadow="lg" maxW="sm" overflow="hidden" {...props} />
 )
 
-const CardHeroImage = props => (
-  <Comp w="full" border={['black', 'solid']}>
-    <img {...props} />
+const CardHeroImage = ({ src, ...rest }) => (
+  <Comp w="full" border={['black', 'solid']} {...rest} >
+    <img src={src} />
   </Comp>
 )
 
