@@ -30,7 +30,7 @@ const Card = props => (
 )
 
 const CardHeroImage = ({ src, ...rest }) => (
-  <Comp w="full" border={['black', 'solid']} {...rest} >
+  <Comp w="full" border={['black', 'solid']} {...rest}>
     <img src={src} />
   </Comp>
 )
@@ -54,7 +54,7 @@ And then consume them:
 
 ## Getting started
 
-See the [TailwindCSS Recipe](docs/recipes/tailwind) for an example configuration.
+See the [TailwindCSS Recipe](docs/recipes/tailwind.md) for an example configuration.
 
 ## Passing down styles
 
@@ -80,6 +80,12 @@ import styles from './styles.css'
 
 ## API
 
+```js
+import { Box, Comp, cx, configure } from 'classier-react'
+```
+
+###
+
 ### `<Box />`
 
 Renders a tag with its unknown props translated to CSS classes.
@@ -91,3 +97,19 @@ Renders a tag with its unknown props translated to CSS classes.
 ### `<Comp />`
 
 A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+
+### `cx(props, ...extraClasses)`
+
+Transform the passed props into a className string. Called by Box and Comp.
+
+### `configure(opts)`
+
+Lets you change the global behavior of `cx`
+
+#### opts
+
+- **transformCase** - enables lower-casing everything but the first word (_default: true_)
+
+- **join.words** - the string to insert between the words in a camelCase identifier (_default: '-'_)
+
+- **join.modifiers** - the string to insert between a prop name and its modifiers (_default: '-'_)
