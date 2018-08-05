@@ -14,9 +14,14 @@ Think of it like weaponized `classnames`.
 npm install classier-react
 ```
 
-## Usage
+## Getting started
 
-You'll have to have configured your build-toolchain with a style loader and have added some styles.
+You'll have to have configured your build toolchain with a style loader and have added some styles to use the tool. This usually isn't very much setup. 
+
+See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configuration thats one of the more complicated.
+
+
+## Usage
 
 Here's the basic usage with utility classes from [TailwindCSS](https://tailwindcss.com/)
 
@@ -51,10 +56,6 @@ And then consume them:
   <CardBody>Lorem ipsum...</CardBody>
 </Card>
 ```
-
-## Getting started
-
-See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configuration.
 
 ## Passing down styles
 
