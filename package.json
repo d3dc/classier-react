@@ -1,6 +1,6 @@
 {
   "name": "classier-react",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "description": "Use stylesheets for styles, not Javascript",
   "keywords": ["react", "classnames", "styles", "just", "use", "css"],
   "homepage": "https://github.com/d3dc/classier-react",
