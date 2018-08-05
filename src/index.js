@@ -1,46 +1,50 @@
 import React from 'react'
 
-let JOIN_MODIFIERS = '-'
-let JOIN_WORDS = '-'
-let TRANSFORM_CASE = true
-
-export function configure(opts) {
-  JOIN_MODIFIERS = (opts.join && opts.join.modifiers) || JOIN_MODIFIERS
-  JOIN_WORDS = (opts.join && opts.join.words) || JOIN_WORDS
-  TRANSFORM_CASE = opts.hasOwnProperty('transformCase')
-    ? Boolean(opts['transformCase'])
-    : TRANSFORM_CASE
+const DEFAULT_CONFIG = {
+  transformCase: true,
+  join: {
+    block: '-',
+    modifier: '-',
+    value: '-',
+    words: '-'
+  }
 }
 
-function transformName(name) {
+let config = DEFAULT_CONFIG
+
+export function configure(opts) {
+  config = {
+    ...DEFAULT_CONFIG,
+    ...opts,
+    join: { ...DEFAULT_CONFIG.join, ...opts.join }
+  }
+}
+
+function toStyleName(modifier, value) {
+  const name =
+    value === true ? modifier : `${modifier}${config.join.value}${value}`
   // Might need to customize the separator
   // This is aZ | aXYZ
   let style = name
     .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
-    .join(JOIN_WORDS)
+    .join(config.join.words)
 
-  if (TRANSFORM_CASE) {
-    style = style[0] + style.substring(1).toLowerCase()
+  if (config.transformCase) {
+    style = style.toLowerCase()
   }
 
   return style
 }
 
-function toStyleName(name, modifiers) {
-  return transformName(
-    modifiers ? `${name}${JOIN_MODIFIERS}${modifiers}` : name
-  )
-}
-
 function toClassNames(props) {
   return Object.keys(props)
-    .filter(name => !!props[name])
+    .filter(name => props[name] !== false)
     .map(name => {
       if (Array.isArray(props[name])) {
         return props[name].map(inner => toStyleName(name, inner)).join(' ')
       }
 
-      return toStyleName(name, props[name] === true ? undefined : props[name])
+      return toStyleName(name, props[name])
     })
 }
 
@@ -78,14 +82,46 @@ export const Box = ({
  A wrapper that injects its children with style and className
  using shallow merging and classNameTransform
  */
-export const Comp = ({ style, className, children, ...propClasses }) =>
+export const Comp = ({ as, style, className, children, ...propClasses }) =>
   React.Children.map(
     children,
     child =>
       child
         ? React.cloneElement(child, {
             style: { ...style, ...child.props.style },
-            className: cx(propClasses, className, child.props.className)
+            className: cx(
+              propClasses,
+              className,
+              child.props.className,
+              as && as.__classier
+            )
           })
         : null
   )
+
+export function mapToNamespace(name, props) {
+  return Object.keys(props).reduce(
+    (res, key) => {
+      res[`${name}${config.join.modifier}${key}`] = props[key]
+      return res
+    },
+    { [name]: true }
+  )
+}
+
+export const createBlock = name => {
+  const render = props => <Box {...mapToNamespace(name, props)} />
+
+  const proxy = new Proxy(render, {
+    get(obj, nested) {
+      return nested in obj
+        ? obj[nested]
+        : (obj[nested] = createBlock(`${name}${config.join.block}${nested}`))
+    }
+  })
+
+  // Store this so we can use it in Comp
+  proxy.__classier = toStyleName(name, true)
+
+  return proxy
+}
