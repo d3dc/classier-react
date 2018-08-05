@@ -1,10 +1,20 @@
-# 🥂 🎩 Classier React 🎩 🥂
+# 🎩 Classier React 🥂
+![npm (tag)](https://img.shields.io/npm/v/classier-react.svg)
+![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/classier-react.svg)
+![npm](https://img.shields.io/npm/l/classier-react.svg)
+
+
 
 We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But most browser apps don't need an alternative to CSS, and without it, styles aren't re-used and they don't _cascade_!
 
 Awesome style libraries already exist for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
 
 `classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
+
+```js
+const Button = props =>
+  <Box rounded bg="blue" text="white" font="bold" py={2} px={4} {...props} is='button' />
+```
 
 Think of it like weaponized `classnames`.
 
@@ -23,9 +33,32 @@ See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configu
 
 ## Usage
 
-Here's the basic usage with utility classes from [TailwindCSS](https://tailwindcss.com/)
 
-You define some presentational components:
+#### 1. Externally Declared Props
+
+The recommended way to use `react-classier` is through its components - `Box` and `Comp`.
+Any props you pass are assumed to be declared as modifiers in your stylesheet.
+
+```
+ <Box rounded>
+```
+
+#### 2. className Translation
+
+Under the hood, `react-classier` translates unknown properties according to simple rules:
+
+- All props with a falsy value are omitted
+
+- prop values are appended to their names
+   - each value of an array will generate its own prop class
+
+- camelCase words become kebab-cased
+
+- Sentence-casing is preserved but not added
+
+#### 3. Putting it together
+
+You'll define your presentational components using whatever style architecture you choose. This example uses utility classes from [TailwindCSS](https://tailwindcss.com/docs/):
 
 ```jsx
 import { Box, Comp } from 'classier-react'
@@ -41,13 +74,13 @@ const CardHeroImage = ({ src, ...rest }) => (
 )
 
 const CardTitle = ({ size = 5, ...rest }) => (
-  <Box is={'h' + size} fontBold text="xl" mb={2} {...rest} />
+  <Box is={'h' + size} text="xl" font="bold" mb={2} {...rest} />
 )
 
 const CardBody = props => <Box px={6} py={4} {...props} />
 ```
 
-And then consume them:
+To consume your components:
 
 ```js
 <Card maxW="md">
