@@ -32,8 +32,9 @@ See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configu
 
 
 ## Usage
+_Note: This example uses utility classes from [TailwindCSS](https://tailwindcss.com/docs/)._
 
-You'll define your presentational components using whatever style architecture you choose. This example uses utility classes from [TailwindCSS](https://tailwindcss.com/docs/):
+You'll define your presentational components:
 
 ```jsx
 import { Box, Comp } from 'classier-react'
@@ -55,7 +56,7 @@ const CardTitle = ({ size = 5, ...rest }) => (
 const CardBody = props => <Box px={6} py={4} {...props} />
 ```
 
-And to consume your components:
+And then consume them as usual:
 
 ```jsx
 <Card maxW="md">
