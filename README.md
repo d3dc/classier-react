@@ -1,7 +1,9 @@
 # 🎩 Classier React 🥂
-![npm (tag)](https://img.shields.io/npm/v/classier-react.svg)
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/classier-react.svg)
+![npm (tag)](https://img.shields.io/npm/v/classier-react.svg)
+[![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
+
 
 
 
