@@ -1,11 +1,11 @@
 ## Using TailwindCSS with `classier-react`
 
-TailwindCSS is "a Utility-First CSS Framework
+[TailwindCSS](https://tailwindcss.com) is "a Utility-First CSS Framework
 for Rapid UI Development". It comes with a lot of great modular helpers that are very familiar to those coming from Rebass _or_ Bootstrap.
 
 ## Setup
 
-These steps assume a structure similar to [`create-react-app`]()
+These steps assume a structure similar to [`create-react-app`](https://github.com/facebook/create-react-app)
 and should closely follow the [installation instruction for TailwindCSS itself](https://tailwindcss.com/docs/installation)
 
 1.  add `tailwindcss` to your project: `yarn add tailwindcss`
