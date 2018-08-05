@@ -11,9 +11,9 @@ Awesome style libraries already exist for browsers, its just awkward to make use
 
 `classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
-```js
+```jsx
 const Button = props =>
-  <Box rounded bg="blue" text="white" font="bold" py={2} px={4} {...props} is='button' />
+  <Box rounded bg="blue" py={2} px={4} {...props} is='button' />
 ```
 
 Think of it like weaponized `classnames`.
@@ -32,31 +32,6 @@ See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configu
 
 
 ## Usage
-
-
-#### 1. Externally Declared Props
-
-The recommended way to use `react-classier` is through its components - `Box` and `Comp`.
-Any props you pass are assumed to be declared as modifiers in your stylesheet.
-
-```
- <Box rounded>
-```
-
-#### 2. className Translation
-
-Under the hood, `react-classier` translates unknown properties according to simple rules:
-
-- All props with a falsy value are omitted
-
-- prop values are appended to their names
-   - each value of an array will generate its own prop class
-
-- camelCase words become kebab-cased
-
-- Sentence-casing is preserved but not added
-
-#### 3. Putting it together
 
 You'll define your presentational components using whatever style architecture you choose. This example uses utility classes from [TailwindCSS](https://tailwindcss.com/docs/):
 
@@ -80,15 +55,29 @@ const CardTitle = ({ size = 5, ...rest }) => (
 const CardBody = props => <Box px={6} py={4} {...props} />
 ```
 
-To consume your components:
+And to consume your components:
 
-```js
+```jsx
 <Card maxW="md">
   <CardHeroImage src={image} border={false} />
   <CardTitle>So Classy</CardTitle>
   <CardBody>Lorem ipsum...</CardBody>
 </Card>
 ```
+
+## Translation to style names
+
+Under the hood, `classier-react` assumes any unknown props are declared as modifiers in your stylesheet. Props are translated to these declarations according to simple rules:
+
+- Any props with an explicit `false` value are omitted
+
+- prop values are appended to their names
+   - each value of an array will generate its own prop class
+
+- camelCase words become kebab-cased
+
+- Sentence-casing is preserved but not added
+
 
 ## Passing down styles
 
