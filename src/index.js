@@ -1,11 +1,35 @@
 import React from 'react'
 
-function toStyleName(name) {
+let JOIN_MODIFIERS = '-'
+let JOIN_WORDS = '-'
+let TRANSFORM_CASE = true
+
+export function configure(opts) {
+  JOIN_MODIFIERS = (opts.join && opts.join.modifiers) || JOIN_MODIFIERS
+  JOIN_WORDS = (opts.join && opts.join.words) || JOIN_WORDS
+  TRANSFORM_CASE = opts.hasOwnProperty('transformCase')
+    ? Boolean(opts['transformCase'])
+    : TRANSFORM_CASE
+}
+
+function transformName(name) {
   // Might need to customize the separator
-  return name
+  // This is aZ | aXYZ
+  let style = name
     .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
-    .map((c, i) => (i > 0 ? c.toLowerCase() : c))
-    .join('-')
+    .join(JOIN_WORDS)
+
+  if (TRANSFORM_CASE) {
+    style = style[0] + style.substring(1).toLowerCase()
+  }
+
+  return style
+}
+
+function toStyleName(name, modifiers) {
+  return transformName(
+    modifiers ? `${name}${JOIN_MODIFIERS}${modifiers}` : name
+  )
 }
 
 function toClassNames(props) {
@@ -16,11 +40,11 @@ function toClassNames(props) {
         return props[name].map(inner => toStyleName(name, inner)).join(' ')
       }
 
-      return toStyleName(props[name] === true ? name : `${name}-${props[name]}`)
+      return toStyleName(name, props[name] === true ? undefined : props[name])
     })
 }
 
-function cx(propClasses, ...extraClassNames) {
+export function cx(propClasses, ...extraClassNames) {
   return [...toClassNames(propClasses), ...extraClassNames].join(' ')
 }
 
