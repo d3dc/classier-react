@@ -54,7 +54,7 @@ And then consume them:
 
 ## Getting started
 
-See the [TailwindCSS Recipe](docs/recipes/tailwind.md) for an example configuration.
+See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configuration.
 
 ## Passing down styles
 
@@ -84,7 +84,7 @@ import styles from './styles.css'
 import { Box, Comp, cx, configure } from 'classier-react'
 ```
 
-###
+---
 
 ### `<Box />`
 
@@ -94,13 +94,22 @@ Renders a tag with its unknown props translated to CSS classes.
 
 - **is**: the tag to render as (_default: 'div'_)
 
+
+---
+
 ### `<Comp />`
 
 A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
 
+
+---
+
 ### `cx(props, ...extraClasses)`
 
 Transform the passed props into a className string. Called by Box and Comp.
+
+
+---
 
 ### `configure(opts)`
 
