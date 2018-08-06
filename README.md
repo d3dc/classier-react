@@ -143,8 +143,10 @@ Lets you change the global behavior of `cx`
 
 #### opts
 
-- **transformCase** - enables lower-casing everything but the first word (_default: true_)
+- **kebabCase** - Transform names and values from camelCase. Reverses `style-loader`. (_default: true_)
+
+- **keepSentence** - When kebabing, lower-case everything but the first word (_default: true_)
 
 - **join.words** - the string to insert between the words in a camelCase identifier (_default: '-'_)
 
-- **join.modifiers** - the string to insert between a prop name and its modifiers (_default: '-'_)
+- **join.value** - the string to insert to separate a value (_default: '-'_)
