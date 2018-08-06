@@ -45,10 +45,10 @@ describe('configure:', () => {
     configure = lib.configure
   })
 
-  test('should allow changing modifier symbol', () => {
+  test('should allow changing value symbol', () => {
     configure({
       join: {
-        modifiers: '__'
+        value: '__'
       }
     })
     const res = cx({
@@ -58,15 +58,26 @@ describe('configure:', () => {
     expect(res).toEqual('George__foreman')
   })
 
-  test('should allow changing transformCase', () => {
+  test('should allow changing keepSentence', () => {
     configure({
-      transformCase: false
+      keepSentence: false
     })
     const res = cx({
       George: 'Foreman'
     })
 
-    expect(res).toEqual('George-Foreman')
+    expect(res).toEqual('george-foreman')
+  })
+
+  test('should allow changing kebabCase', () => {
+    configure({
+      kebabCase: false
+    })
+    const res = cx({
+      GrillinMachine: 'LeanMean'
+    })
+
+    expect(res).toEqual('GrillinMachine-LeanMean')
   })
 })
 
