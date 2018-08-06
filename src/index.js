@@ -24,13 +24,17 @@ export function configure(opts) {
 function kebab(camel, sentenceCase) {
   // Might need to customize the separator
   // This is aZ | aXYZ
-  let words = camel.split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
-  if (sentenceCase) {
-    words = [words[0], ...words.slice(1).map(w => w.toLowerCase())]
-  } else {
-    words = words.map(w => w.toLowerCase())
+  const words = camel
+    .toString()
+    .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
+
+  if (!sentenceCase) {
+    return words.join(config.join.words).toLowerCase()
   }
-  return words.join(config.join.words)
+
+  return [words[0], ...words.slice(1).map(w => w.toLowerCase())].join(
+    config.join.words
+  )
 }
 
 function toStyleName(modifier, value) {
@@ -40,9 +44,9 @@ function toStyleName(modifier, value) {
     return tm
   }
 
-  let tv = config.kebabCase ? kebab(value.toString()) : value.toString()
+  let tv = config.kebabCase ? kebab(value) : value
 
-  return [tm, config.join.value, tv].join('')
+  return `${tm}${config.join.value}${tv}`
 }
 
 function toClassNames(props) {
@@ -86,6 +90,8 @@ export const Box = ({
 
   return <Tag {...props}>{children}</Tag>
 }
+
+export const Text = props => <Box is="span" {...props} />
 
 /*
  A wrapper that injects its children with style and className
