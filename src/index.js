@@ -91,7 +91,9 @@ export const Box = ({
   return <Tag {...props}>{children}</Tag>
 }
 
-export const Text = props => <Box is="span" {...props} />
+export const Text = ({ className, ...propClasses }) => (
+  <span className={cx(propClasses, className)} />
+)
 
 /*
  A wrapper that injects its children with style and className
