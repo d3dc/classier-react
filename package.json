@@ -1,15 +1,11 @@
 {
   "name": "classier-react",
   "version": "1.0.0-alpha.9",
+  "publishConfig": {
+    "tag": "next"
+  },
   "description": "Use stylesheets for styles, not Javascript",
-  "keywords": [
-    "react",
-    "classnames",
-    "styles",
-    "just",
-    "use",
-    "css"
-  ],
+  "keywords": ["react", "classnames", "styles", "just", "use", "css"],
   "homepage": "https://github.com/d3dc/classier-react",
   "bugs": {
     "url": "git+https://github.com/d3dc/classier-react/issues"
@@ -18,15 +14,14 @@
   "main": "dist/classier-react.cjs.js",
   "module": "dist/classier-react.esm.js",
   "browser": "dist/classier-react.umd.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3dc/classier-react.git"
   },
   "scripts": {
     "test": "NODE_ENV=development jest",
+    "release": "release-it",
     "build": "npm run clean && npm test && NODE_ENV=production rollup -c",
     "clean": "npm run clean:dist & npm run clean:build",
     "clean:build": "npx rimraf build",
@@ -44,6 +39,7 @@
     "jest": "^23.4.2",
     "react": "^16.4.2",
     "regenerator-runtime": "^0.12.1",
+    "release-it": "^7.5.0",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-uglify": "^3.0.0",
@@ -52,7 +48,5 @@
   "peerDependencies": {
     "react": "^16.0.0"
   },
-  "authors": [
-    "Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)"
-  ]
+  "authors": ["Sam Richard <sam.richard@gmail.com> (https://github.com/d3dc)"]
 }
