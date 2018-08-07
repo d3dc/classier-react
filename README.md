@@ -1,11 +1,9 @@
 # 🎩 Classier React 🥂
+
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/classier-react.svg)
 ![npm (tag)](https://img.shields.io/npm/v/classier-react.svg)
 [![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
-
-
-
 
 We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But most browser apps don't need an alternative to CSS, and without it, styles aren't re-used and they don't _cascade_!
 
@@ -14,8 +12,9 @@ Awesome style libraries already exist for browsers, its just awkward to make use
 `classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
 ```jsx
-const Button = props =>
-  <Box rounded bg="blue" py={2} px={4} {...props} is='button' />
+const Button = props => (
+  <Box rounded bg="blue" py={2} px={4} {...props} is="button" />
+)
 ```
 
 Think of it like weaponized `classnames`.
@@ -28,12 +27,12 @@ npm install classier-react
 
 ## Getting started
 
-You'll have to have configured your build toolchain with a style loader and have added some styles to use the tool. This usually isn't very much setup. 
+You'll have to have configured your build toolchain with a style loader and have added some styles to use the tool. This usually isn't very much setup.
 
 See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configuration thats one of the more complicated.
 
-
 ## Usage
+
 _Note: This example uses utility classes from [TailwindCSS](https://tailwindcss.com/docs/)._
 
 You'll define your presentational components:
@@ -75,12 +74,12 @@ Under the hood, `classier-react` assumes any unknown props are declared as modif
 - Any props with an explicit `false` value are omitted
 
 - prop values are appended to their names
-   - each value of an array will generate its own prop class
+
+  - each value of an array will generate its own prop class
 
 - camelCase words become kebab-cased
 
 - Sentence-casing is preserved but not added
-
 
 ## Passing down styles
 
@@ -99,15 +98,29 @@ const MyComponent = ({ option, ...rest }) => <div {...rest} />
 ```jsx
 import styles from './styles.css'
 
+...
+
 <Box {...{
   [styles.fontSize]: 'md'
 }} {...rest} />
 ```
 
+## Avoiding mixing domains
+
+You can also use `cx` and pass around the resulting string yourself:
+
+```js
+import { cx } from 'classier-react'
+
+...
+
+const containerClassName = cx(props.styled)
+```
+
 ## API
 
 ```js
-import { Box, Comp, cx, configure } from 'classier-react'
+import { Box, Text, Comp, cx, configure } from 'classier-react'
 ```
 
 ---
@@ -120,6 +133,11 @@ Renders a tag with its unknown props translated to CSS classes.
 
 - **is**: the tag to render as (_default: 'div'_)
 
+---
+
+### `<Text />`
+
+Renders a span with all its props translated to CSS classes.
 
 ---
 
@@ -127,13 +145,11 @@ Renders a tag with its unknown props translated to CSS classes.
 
 A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
 
-
 ---
 
 ### `cx(props, ...extraClasses)`
 
 Transform the passed props into a className string. Called by Box and Comp.
-
 
 ---
 
