@@ -5,9 +5,9 @@
 [![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
 
-We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But most browser apps don't need an alternative to CSS, and without it, styles aren't re-used and they don't _cascade_!
+We're trained to put styles in Javascript. We've got these awesome and rather complex toolchains to have tools like [Rebass](jxnblk/rebass). But, sometimes, you just want to re-use styles.
 
-Awesome style libraries already exist for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
+Awesome stylesheets are already out there for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
 
 `classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
