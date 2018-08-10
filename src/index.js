@@ -49,21 +49,22 @@ function toStyleName(modifier, value) {
   return `${tm}${config.join.value}${tv}`
 }
 
-function toClassNames(props) {
+function toClassNames(name, value) {
+  if (Array.isArray(value)) {
+    return value.map(inner => toStyleName(name, inner))
+  }
+
+  return toStyleName(name, value)
+}
+
+export function cx(props, ...extraClassNames) {
   return Object.keys(props)
     .filter(name => props[name] !== false)
-    .map(name => {
-      if (Array.isArray(props[name])) {
-        return props[name].map(inner => toStyleName(name, inner)).join(' ')
-      }
-
-      return toStyleName(name, props[name])
-    })
+    .map(name => toClassNames(name, props[name]))
+    .reduce((a, b) => a.concat(b), extraClassNames)
+    .join(' ')
 }
 
-export function cx(propClasses, ...extraClassNames) {
-  return [...toClassNames(propClasses), ...extraClassNames].join(' ')
-}
 
 /*
   A structural div that uses its unknown props as css class names
