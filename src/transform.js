@@ -1,6 +1,6 @@
 import { config } from './config'
 
-function kebab (camel, sentenceCase) {
+function kebab(camel, sentenceCase) {
   // Might need to customize the separator
   // This is aZ | aXYZ
   const words = camel
@@ -16,7 +16,7 @@ function kebab (camel, sentenceCase) {
   )
 }
 
-function toStyleName (modifier, value) {
+function toStyleName(modifier, value) {
   let tm = config.kebabCase ? kebab(modifier, config.keepSentence) : modifier
 
   if (value === true) {
@@ -28,7 +28,7 @@ function toStyleName (modifier, value) {
   return `${tm}${config.join.value}${tv}`
 }
 
-function toClassNames (name, value) {
+function toClassNames(name, value) {
   if (Array.isArray(value)) {
     return value.map(inner => toClassNames(name, inner))
   }
@@ -36,11 +36,15 @@ function toClassNames (name, value) {
   return toStyleName(name, value)
 }
 
-function cx (props, ...extraClassNames) {
+function cx(props, ...extraClassNames) {
   return Object.keys(props)
-    .filter(name => props[name] !== false)
-    .map(name => toClassNames(name, props[name]))
-    .reduce((a, b) => a.concat(b), extraClassNames)
+    .reduce(
+      (classes, name) =>
+        props[name] !== false
+          ? classes.concat(toClassNames(name, props[name]))
+          : classes,
+      extraClassNames
+    )
     .join(' ')
 }
 
