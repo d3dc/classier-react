@@ -1,4 +1,4 @@
-const { configure, cx } = require('../src')
+import { configure, cx } from '../src'
 
 describe('cx:', () => {
   test('should transform propClasses with booleans', () => {
