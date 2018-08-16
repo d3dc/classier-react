@@ -5,9 +5,9 @@
 [![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
 
-We're trained to put styles in Javascript. We've got these awesome and rather complex toolchains to have tools like [Rebass](jxnblk/rebass). But, sometimes, you just want to re-use styles.
+We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But the thing is, most browser apps don't need an alternative to CSS and, sometimes, you just want to use your favorite stylesheet.
 
-Awesome stylesheets are already out there for browsers, its just awkward to make use of them when you're writing react. Cramming everything into that `className` string feels wrong.
+We know awesome stylesheets are out there for browsers, its just awkward to make use of them in our javascript. Cramming everything into that `className` string feels wrong and our brains have to remember how the styles were written.
 
 `classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
@@ -17,7 +17,7 @@ const Button = props => (
 )
 ```
 
-Think of it like weaponized `classnames`.
+Think of it like `classnames` with superpowers.
 
 ## Install
 
@@ -51,7 +51,7 @@ const Card = props => (
 )
 
 const CardHeroImage = ({ src, ...rest }) => (
-  <Comp w="full" border={['black', 'solid']} {...rest}>
+  <Comp w="full" border={[1, 'black']} {...rest}>
     <img src={src} />
   </Comp>
 )
@@ -176,3 +176,7 @@ Lets you change the global behavior of `cx`
 - **join.value** - the string used to separate a value (_default: '-'_)
 
 - **join.variant** - the string used to separate a variant from its modifier(_default: ':'_)
+
+- **join.block** - the string to insert before nested blocks or elements (_default: '-'_)
+
+- **join.modifier** - the string used to separate the block identifier from the modifier name (_default: '-'_)
