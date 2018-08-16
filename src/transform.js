@@ -33,6 +33,12 @@ function toClassNames(name, value) {
     return value.map(inner => toClassNames(name, inner))
   }
 
+  if (typeof value === 'object') {
+    return Object.keys(value).map(variant =>
+      toClassNames(`${variant}${config.join.variant}${name}`, value[variant])
+    )
+  }
+
   return toStyleName(name, value)
 }
 

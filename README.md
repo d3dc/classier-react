@@ -41,7 +41,13 @@ You'll define your presentational components:
 import { Box, Comp } from 'classier-react'
 
 const Card = props => (
-  <Box rounded shadow="lg" maxW="sm" overflow="hidden" {...props} />
+  <Box
+    rounded
+    shadow={['md', { hover: 'lg' }]}
+    maxW="sm"
+    overflow="hidden"
+    {...props}
+  />
 )
 
 const CardHeroImage = ({ src, ...rest }) => (
@@ -62,8 +68,8 @@ And then consume them as usual:
 ```jsx
 <Card maxW="md">
   <CardHeroImage src={image} border={false} />
-  <CardTitle>So Classy</CardTitle>
-  <CardBody>Lorem ipsum...</CardBody>
+  <CardTitle size={4}>So Classy</CardTitle>
+  <CardBody font="semibold">Lorem ipsum...</CardBody>
 </Card>
 ```
 
@@ -76,6 +82,8 @@ Under the hood, `classier-react` assumes any unknown props are declared as modif
 - prop values are appended to their names
 
   - each value of an array will generate its own prop class
+
+  - each key of an object will generate a variant prop class
 
 - camelCase words become kebab-cased
 
@@ -165,4 +173,6 @@ Lets you change the global behavior of `cx`
 
 - **join.words** - the string to insert between the words in a camelCase identifier (_default: '-'_)
 
-- **join.value** - the string to insert to separate a value (_default: '-'_)
+- **join.value** - the string used to separate a value (_default: '-'_)
+
+- **join.variant** - the string used to separate a variant from its modifier(_default: ':'_)

@@ -27,6 +27,14 @@ describe('cx:', () => {
     expect(res).toEqual('chicken-tasty chicken-dinner')
   })
 
+  test('should transform propClasses with variants', () => {
+    const res = cx({
+      chicken: ['dinner', { morning: 'breakfast' }]
+    })
+
+    expect(res).toEqual('chicken-dinner morning:chicken-breakfast')
+  })
+
   test('should transform propClasses with CamelCase names', () => {
     const res = cx({
       CamelHumps: 'LovelyCamelHumps'
