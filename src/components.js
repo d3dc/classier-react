@@ -27,8 +27,8 @@ export const Box = ({
   return <Tag {...props}>{children}</Tag>
 }
 
-export const Text = ({ className, ...propClasses }) => (
-  <span className={cx(propClasses, className)} />
+export const Text = ({ className, children, ...propClasses }) => (
+  <span className={cx(propClasses, className)} children={children} />
 )
 
 /*
@@ -41,8 +41,8 @@ export const Comp = ({ style, className, children, ...propClasses }) =>
     child =>
       child
         ? React.cloneElement(child, {
-          style: { ...style, ...child.props.style },
-          className: cx(propClasses, className, child.props.className)
-        })
+            style: { ...style, ...child.props.style },
+            className: cx(propClasses, className, child.props.className)
+          })
         : null
   )
