@@ -101,16 +101,38 @@ const MyComponent = ({ option, ...rest }) => <Box {...rest} />
 
 ## CSS Modules
 
-`classier-react` supports using CSS Modules through dynamic object keys:
+`classier-react` supports CSS Modules by letting you wrap them with `createModuleElement` and `wrapModule`.
 
+
+`wrapModule` will expose every style name in your module:
+ 
 ```jsx
+// feature/block.js
+import { wrapModule } from 'classier-react'
 import styles from './styles.css'
+
+export default wrapModule(styles)
+```
+
+Often, selectors are not elements. You might find it better to pick which elements to export:
+```jsx
+// feature/block.js
+import { createModuleElement } from 'classier-react'
+import styles from './styles.css'
+
+export {
+  Element: createModuleElement('element', styles)
+}
+```
+
+Your elements can then be used in your other components
+```jsx
+// feature/component.jsx
+import Block from './block'
 
 ...
 
-<Box {...{
-  [styles.fontSize]: 'md'
-}} {...rest} />
+<Block.Element fontSize='md' {...props} />
 ```
 
 ## Avoiding mixing domains
@@ -151,7 +173,33 @@ Renders a span with all its props translated to CSS classes.
 
 ### `<Comp />`
 
-A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+A declarative wrapper for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+
+---
+
+### `createElement(name)`
+
+Returns a customized `Box` that nests its CSS classes under the {name} block.
+
+#### members
+
+- **Comp** - a `Comp` with the same customization.
+
+---
+
+### `createModuleElement(name, module)`
+
+Returns a customized `Box` that tries to map its CSS classes to the ones in the provided module.
+
+#### members
+
+- **Comp** - a `Comp` with the same customization.
+
+---
+
+### `wrapModule(module)`
+
+Returns an object that maps the selectors of `module` to `createModuleElement`. Might create a lot of elements.
 
 ---
 
@@ -167,7 +215,9 @@ Lets you change the global behavior of `cx`
 
 #### opts
 
-- **kebabCase** - Transform names and values from camelCase. Reverses `style-loader`. (_default: true_)
+- **transformFn** - A function mapping an AST Node to a CSS class name. (_default: mappers.tailwind_)
+
+- **kebabCase** - Transform names and values from camelCase. You might want to turn it off with `postcss-modules`. (_default: true_)
 
 - **keepSentence** - When kebabing, lower-case everything but the first word (_default: true_)
 
