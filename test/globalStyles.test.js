@@ -55,7 +55,7 @@ describe('Comp:', () => {
       <Comp propsTest children={<div className="inner-test" />} />
     )
     expect(wrapper.type()).toBe('div')
-    expect(wrapper.prop('className')).toEqual('inner-test props-test')
+    expect(wrapper.prop('className')).toEqual('props-test inner-test')
   })
 
   test('should merge style', () => {
@@ -85,7 +85,7 @@ describe('createElement', () => {
       </Tester.Comp>
     )
     expect(wrapper.prop('className')).toEqual(
-      'inner-test tester tester-props-test'
+      'tester tester-props-test inner-test'
     )
   })
 })
