@@ -16,16 +16,17 @@ export const Comp = factories.makeComposer(classnames)
 export const createElement = block =>
   factories.makeElement(classnamesWithBase({ block }))
 
-export const createModuleElement = (block, module) =>
+export const createModuleElement = (module, key) =>
   factories.makeElement(
-    classnamesWithMapper(name => module[name] || name, { block })
+    classnamesWithMapper(name => module[name] || name, { block: key })
   )
 
-export const wrapModule = module =>
-  Object.keys(module).reduce((res, key) => {
-    res[key.charAt(0).toUpperCase() + key.substring(1)] = createModuleElement(
-      key,
-      module
-    )
+export const boxedModule = module =>
+  factories.makeElement(classnamesWithMapper(name => module[name] || name))
+
+export const elementModule = (module, pick) =>
+  (pick || Object.keys(module)).reduce((res, key) => {
+    const capped = key.charAt(0).toUpperCase() + key.substring(1)
+    res[capped] = createModuleElement(module, key)
     return res
   }, {})
