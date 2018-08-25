@@ -5,17 +5,17 @@
 [![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
 
-We keep putting styles in Javascript. We've developed these rather awesome and complex toolchains to have tools like [Rebass](jxnblk/rebass). But the thing is, most browser apps don't need an alternative to CSS and, sometimes, you just want to use your favorite stylesheet.
-
-We know awesome stylesheets are out there for browsers, its just awkward to make use of them in our javascript. Cramming everything into that `className` string feels wrong and our brains have to remember how the styles were written.
-
-`classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
+`classier-react` lets you use your stylesheet utilty classes as props out of the **Box** and can automatically generate react components for the elements in your CSS modules.
 
 ```jsx
 const Button = props => (
   <Box rounded bg="blue" py={2} px={4} {...props} is="button" />
 )
 ```
+
+We know awesome stylesheets are out there for browsers, its just awkward to make use of them when working with JSX. Cramming everything into that `className` string feels wrong and our brains have to remember how the styles were written.
+
+`classier-react` solves the problem by simply translating from props to CSS classes. Its not generating code and its not pushing the browser to its limits.
 
 Think of it like `classnames` with superpowers.
 
