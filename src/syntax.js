@@ -1,5 +1,17 @@
 import config from './config'
-require('array.prototype.flatmap/auto')
+
+function mapFlat(array, fn) {
+  const result = []
+  for (const value of array) {
+    const out = fn(value)
+    if (Array.isArray(out)) {
+      result.push(...out)
+    } else {
+      result[result.length] = out
+    }
+  }
+  return result
+}
 
 function kebab(camel, sentenceCase) {
   // Might need to customize the separator
@@ -21,11 +33,12 @@ function kebab(camel, sentenceCase) {
 
 const getNodes = (value, env) => {
   if (Array.isArray(value)) {
-    return value.flatMap(inner => getNodes(inner, env))
+    return mapFlat(value, inner => getNodes(inner, env))
   }
 
   if (typeof value === 'object') {
-    return Object.keys(value).flatMap(
+    return mapFlat(
+      Object.keys(value),
       variant => getNodes(value[variant], { variant, ...env }) //overwrite with existing
     )
   }
@@ -37,26 +50,37 @@ const getNodes = (value, env) => {
   }
 }
 
-const propsToNodeList = (props, env) =>
-  Object.keys(props).flatMap(
-    name =>
-      props[name] !== false
-        ? getNodes(props[name], {
-            ...env,
-            modifier: config.kebabCase ? kebab(name, config.keepSentence) : name
-          })
-        : []
-  )
-
 /**
  * Build a list of AST nodes from props and env
  * pass it to mapper
  * join the parts to one string
  */
 export const mapAstToString = (mapper, env) => (props, ...extraClassNames) => {
-  const nodeList = propsToNodeList(props, env)
-  return extraClassNames
-    .filter(i => i)
-    .concat(mapper(env ? [env, ...nodeList] : nodeList))
-    .join(' ')
+  const list = []
+
+  if (env) {
+    list.push(env)
+  }
+
+  for (const name of Object.keys(props)) {
+    if (props[name] !== false) {
+      const nodes = getNodes(props[name], {
+        ...env,
+        modifier: config.kebabCase ? kebab(name, config.keepSentence) : name
+      })
+      if (Array.isArray(nodes)) {
+        list.push(...nodes)
+      } else {
+        list.push(nodes)
+      }
+    }
+  }
+
+  for (const i in list) {
+    list[i] = mapper(list[i])
+  }
+
+  list.push(...extraClassNames.filter(i => i))
+
+  return list.join(' ')
 }
