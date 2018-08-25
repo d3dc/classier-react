@@ -3,17 +3,19 @@ import { config } from './config'
 function kebab(camel, sentenceCase) {
   // Might need to customize the separator
   // This is aZ | aXYZ
-  const words = camel
+  return camel
     .toString()
-    .split(/(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])/)
-
-  if (!sentenceCase) {
-    return words.join(config.join.words).toLowerCase()
-  }
-
-  return [words[0], ...words.slice(1).map(w => w.toLowerCase())].join(
-    config.join.words
-  )
+    .match(/[A-Z]?[^A-Z]+|([A-Z](?![^A-Z]))+/g)
+    .reduce(
+      (result, word, index) =>
+        result +
+        (index //not first
+          ? config.join.words + word.toLowerCase()
+          : sentenceCase
+            ? word
+            : word.toLowerCase()),
+      ''
+    )
 }
 
 function toStyleName(modifier, value) {
