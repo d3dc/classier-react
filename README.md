@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/d3dc/classier-react.svg?branch=master)](https://travis-ci.com/d3dc/classier-react)
 ![npm](https://img.shields.io/npm/l/classier-react.svg)
 
-`classier-react` lets you use your stylesheet utilty classes as props out of the **Box** and can automatically generate react components for the elements in your CSS modules.
+`classier-react` automatically lets you access your stylesheet utilty classes as props on [Box](#box-) and can generate react components for the elements in your CSS modules.
 
 ```jsx
 const Button = props => (
@@ -27,9 +27,9 @@ npm install classier-react
 
 ## Getting started
 
-You'll have to have configured your build toolchain with a style loader and have added some styles to use the tool. This usually isn't very much setup.
+You'll have to have configured your app with a stylesheet to use the tool. Webpack can have a style loader or you might even include your favorite library straight in the `<head>` tag.
 
-See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) for an example configuration thats one of the more complicated.
+See the [TailwindCSS Recipe](docs/recipes/tailwindcss.md) to add the classes used in the examples to a `create-react-app` app.
 
 ## Usage
 
@@ -91,12 +91,12 @@ Under the hood, `classier-react` assumes any unknown props are declared as modif
 
 ## Passing down styles
 
-`<Comp />` only injects the props it merges, it can't make sure they are rendered. If you're wrapping or writing a component, it's a good idea to pass any props you don't use onward to what is rendered.
+`<Comp />` only injects the props it merges, it can't make sure they are rendered. If you're wrapping or writing a component, you'll want to to pass any props you don't use or specifically ignore onward to what is rendered.
 
-Most components are already written this way.
+An unsafe, but easy, way to this is to make use of the spread operator:
 
 ```jsx
-const MyComponent = ({ option, ...rest }) => <div {...rest} />
+const MyComponent = ({ option, ...rest }) => <Box {...rest} />
 ```
 
 ## CSS Modules
