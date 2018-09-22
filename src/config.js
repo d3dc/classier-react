@@ -1,7 +1,18 @@
-import * as mappers from './mappers'
+import tailwind from './mappers/tailwind'
 
-export const config = {
-  mapFn: mappers.tailwind,
+export const config = {}
+
+export function configure(opts) {
+  Object.assign(config, {
+    ...opts,
+    mapFn: config.mapFn || opts.mapFn(config),
+    join: { ...config.join, ...opts.join }
+  })
+}
+
+// Default configuration
+configure({
+  mapFn: tailwind,
   keepSentence: true,
   kebabCase: true,
   join: {
@@ -11,14 +22,6 @@ export const config = {
     value: '-',
     words: '-'
   }
-}
+})
 
-export function configure(opts) {
-  Object.assign(config, {
-    ...opts,
-    join: { ...config.join, ...opts.join }
-  })
-}
-
-export { mappers }
 export default config

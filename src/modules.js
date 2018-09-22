@@ -1,6 +1,6 @@
 import { classnamesWithBase, classnamesWithMapper } from './transform'
-import { factory as makeBox } from './componets/Box'
-import { factory as makeComp } from './componets/Comp'
+import { factory as makeBox } from './components/Box'
+import { factory as makeComp } from './components/Comp'
 
 export const makeElement = mapper => {
   const El = makeBox(mapper)
