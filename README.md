@@ -101,38 +101,43 @@ const MyComponent = ({ option, ...rest }) => <Box {...rest} />
 
 ## CSS Modules
 
-`classier-react` supports CSS Modules by letting you wrap them with `createModuleElement` and `wrapModule`.
+`classier-react` can wrap CSS Modules with `elementModule` and `boxedModule`.
 
+`boxedModule` creates an Element that checks the provided module for a mapping after transformation:
 
-`wrapModule` will expose every style name in your module:
- 
 ```jsx
-// feature/block.js
-import { wrapModule } from 'classier-react'
-import styles from './styles.css'
-
-export default wrapModule(styles)
-```
-
-Often, selectors are not elements. You might find it better to pick which elements to export:
-```jsx
-// feature/block.js
 import { createModuleElement } from 'classier-react'
 import styles from './styles.css'
 
-export {
-  Element: createModuleElement('element', styles)
-}
-```
-
-Your elements can then be used in your other components
-```jsx
-// feature/component.jsx
-import Block from './block'
+const MBox = boxedModule(styles)
 
 ...
 
-<Block.Element fontSize='md' {...props} />
+<MBox someProp='someValue' children={...} />
+```
+
+`elementModule` will expose the optionally listed blocks as Elements from the module:
+
+```jsx
+import { createModuleElement } from 'classier-react'
+import styles from './styles.css'
+
+const Block = elementModule(styles, ['element'])
+
+
+...
+
+<Block.Element fontSize="md" {...props} />
+```
+
+## Passing down styles
+
+`<Comp />` only injects the props it merges, it can't make sure they are rendered. If you're wrapping or writing a component, it's a good idea to pass the `style` and `className` props onward to what is rendered.
+
+Most components are already written this way.
+
+```jsx
+const MyComponent = ({ option, ...rest }) => <div {...rest} />
 ```
 
 ## Avoiding mixing domains
@@ -149,8 +154,10 @@ const containerClassName = cx(props.styled)
 
 ## API
 
+### React
+
 ```js
-import { Box, Text, Comp, cx, configure } from 'classier-react'
+import { Box, Text, Comp, createElement } from 'classier-react'
 ```
 
 ---
@@ -187,19 +194,37 @@ Returns a customized `Box` that nests its CSS classes under the {name} block.
 
 ---
 
-### `createModuleElement(name, module)`
+### CSS Modules
 
-Returns a customized `Box` that tries to map its CSS classes to the ones in the provided module.
-
-#### members
-
-- **Comp** - a `Comp` with the same customization.
+```js
+import { boxedModule, createModuleElement, elementModule } from 'classier-react'
+```
 
 ---
 
-### `wrapModule(module)`
+### `boxedModule(module)`
 
-Returns an object that maps the selectors of `module` to `createModuleElement`. Might create a lot of elements.
+Returns an `Element` that tries to map its CSS classes to the ones in the provided module.
+
+---
+
+### `createModuleElement(module, name)`
+
+Returns an `Element` that tries to map its CSS classes to the ones in the provided module under the {name} block.
+
+---
+
+### `elementModule(module, pick)`
+
+Returns an object that picks selectors of `module` to `createModuleElement`.
+
+---
+
+### Utility
+
+```js
+import { cx, configure } from 'classier-react'
+```
 
 ---
 
