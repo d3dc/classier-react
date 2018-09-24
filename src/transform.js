@@ -1,59 +1,17 @@
-import { config } from './config'
+import config from './config'
+import { mapAstToString } from './syntax'
 
-function kebab(camel, sentenceCase) {
-  // Might need to customize the separator
-  // This is aZ | aXYZ
-  return camel
-    .toString()
-    .match(/[A-Z]?[^A-Z]+|([A-Z](?![^A-Z]))+/g)
-    .reduce(
-      (result, word, index) =>
-        result +
-        (index //not first
-          ? config.join.words + word.toLowerCase()
-          : sentenceCase
-            ? word
-            : word.toLowerCase()),
-      ''
-    )
-}
+export const classnamesWithMapper = (mapper, base) =>
+  mapAstToString(node => mapper(config.mapFn(node)), base)
 
-function toStyleName(modifier, value) {
-  let tm = config.kebabCase ? kebab(modifier, config.keepSentence) : modifier
+export const classnamesWithBase = base => mapAstToString(config.mapFn, base)
 
-  if (value === true) {
-    return tm
-  }
+export const classnames = classnamesWithBase(undefined)
 
-  let tv = config.kebabCase ? kebab(value) : value
+export const cx = classnames
 
-  return `${tm}${config.join.value}${tv}`
-}
+export const cxb = classnamesWithBase
 
-function toClassNames(name, value) {
-  if (Array.isArray(value)) {
-    return value.map(inner => toClassNames(name, inner))
-  }
-
-  if (typeof value === 'object') {
-    return Object.keys(value).map(variant =>
-      toClassNames(`${variant}${config.join.variant}${name}`, value[variant])
-    )
-  }
-
-  return toStyleName(name, value)
-}
-
-function cx(props, ...extraClassNames) {
-  return Object.keys(props)
-    .reduce(
-      (classes, name) =>
-        props[name] !== false
-          ? classes.concat(toClassNames(name, props[name]))
-          : classes,
-      extraClassNames
-    )
-    .join(' ')
-}
+export const cxm = classnamesWithMapper
 
 export default cx

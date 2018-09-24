@@ -101,16 +101,43 @@ const MyComponent = ({ option, ...rest }) => <Box {...rest} />
 
 ## CSS Modules
 
-`classier-react` supports using CSS Modules through dynamic object keys:
+`classier-react` can wrap CSS Modules with `elementModule` and `boxedModule`.
+
+`boxedModule` creates an Element that checks the provided module for a mapping after transformation:
 
 ```jsx
+import { createModuleElement } from 'classier-react'
 import styles from './styles.css'
+
+const MBox = boxedModule(styles)
 
 ...
 
-<Box {...{
-  [styles.fontSize]: 'md'
-}} {...rest} />
+<MBox someProp='someValue' children={...} />
+```
+
+`elementModule` will expose the optionally listed blocks as Elements from the module:
+
+```jsx
+import { createModuleElement } from 'classier-react'
+import styles from './styles.css'
+
+const Block = elementModule(styles, ['element'])
+
+
+...
+
+<Block.Element fontSize="md" {...props} />
+```
+
+## Passing down styles
+
+`<Comp />` only injects the props it merges, it can't make sure they are rendered. If you're wrapping or writing a component, it's a good idea to pass the `style` and `className` props onward to what is rendered.
+
+Most components are already written this way.
+
+```jsx
+const MyComponent = ({ option, ...rest }) => <div {...rest} />
 ```
 
 ## Avoiding mixing domains
@@ -127,8 +154,10 @@ const containerClassName = cx(props.styled)
 
 ## API
 
+### React
+
 ```js
-import { Box, Text, Comp, cx, configure } from 'classier-react'
+import { Box, Text, Comp, createElement } from 'classier-react'
 ```
 
 ---
@@ -151,7 +180,51 @@ Renders a span with all its props translated to CSS classes.
 
 ### `<Comp />`
 
-A _HOC_ for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+A declarative wrapper for injecting or "composing" style props. Merges its `style`, `className`, and the rest of its props as classes into the props of a child component.
+
+---
+
+### `createElement(name)`
+
+Returns a customized `Box` that nests its CSS classes under the {name} block.
+
+#### members
+
+- **Comp** - a `Comp` with the same customization.
+
+---
+
+### CSS Modules
+
+```js
+import { boxedModule, createModuleElement, elementModule } from 'classier-react'
+```
+
+---
+
+### `boxedModule(module)`
+
+Returns an `Element` that tries to map its CSS classes to the ones in the provided module.
+
+---
+
+### `createModuleElement(module, name)`
+
+Returns an `Element` that tries to map its CSS classes to the ones in the provided module under the {name} block.
+
+---
+
+### `elementModule(module, pick)`
+
+Returns an object that picks selectors of `module` to `createModuleElement`.
+
+---
+
+### Utility
+
+```js
+import { cx, configure } from 'classier-react'
+```
 
 ---
 
@@ -167,7 +240,9 @@ Lets you change the global behavior of `cx`
 
 #### opts
 
-- **kebabCase** - Transform names and values from camelCase. Reverses `style-loader`. (_default: true_)
+- **transformFn** - A function mapping an AST Node to a CSS class name. (_default: mappers.tailwind_)
+
+- **kebabCase** - Transform names and values from camelCase. You might want to turn it off with `postcss-modules`. (_default: true_)
 
 - **keepSentence** - When kebabing, lower-case everything but the first word (_default: true_)
 

@@ -1,8 +1,8 @@
-import { configure, cx } from '../src'
+import { classnames, classnamesWithBase } from '../src'
 
-describe('cx:', () => {
+describe('classnames:', () => {
   test('should transform propClasses with booleans', () => {
-    const res = cx({
+    const res = classnames({
       chicken: true,
       dinner: true
     })
@@ -11,7 +11,7 @@ describe('cx:', () => {
   })
 
   test('should transform propClasses with normal values', () => {
-    const res = cx({
+    const res = classnames({
       chicken: 'dinner',
       sum: 41
     })
@@ -20,7 +20,7 @@ describe('cx:', () => {
   })
 
   test('should transform propClasses with arrays', () => {
-    const res = cx({
+    const res = classnames({
       chicken: ['tasty', 'dinner']
     })
 
@@ -28,7 +28,7 @@ describe('cx:', () => {
   })
 
   test('should transform propClasses with variants', () => {
-    const res = cx({
+    const res = classnames({
       chicken: ['dinner', { morning: 'breakfast' }]
     })
 
@@ -36,20 +36,29 @@ describe('cx:', () => {
   })
 
   test('should transform propClasses with CamelCase names', () => {
-    const res = cx({
+    const res = classnames({
       CamelHumps: 'LovelyCamelHumps'
     })
 
     expect(res).toEqual('Camel-humps-lovely-camel-humps')
   })
+
+  test('classnamesWithBase', () => {
+    const res = classnamesWithBase({ block: 'wakka' })({
+      chicken: 'dinner',
+      sum: 41
+    })
+
+    expect(res).toEqual('wakka wakka-chicken-dinner wakka-sum-41')
+  })
 })
 
 describe('configure:', () => {
-  let configure, cx
+  let configure, classnames
   beforeEach(() => {
     jest.resetModules()
     const lib = require('../src')
-    cx = lib.cx
+    classnames = lib.classnames
     configure = lib.configure
   })
 
@@ -59,7 +68,7 @@ describe('configure:', () => {
         value: '__'
       }
     })
-    const res = cx({
+    const res = classnames({
       George: 'Foreman'
     })
 
@@ -70,7 +79,7 @@ describe('configure:', () => {
     configure({
       keepSentence: false
     })
-    const res = cx({
+    const res = classnames({
       George: 'Foreman'
     })
 
@@ -81,7 +90,7 @@ describe('configure:', () => {
     configure({
       kebabCase: false
     })
-    const res = cx({
+    const res = classnames({
       GrillinMachine: 'LeanMean'
     })
 
