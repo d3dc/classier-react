@@ -5,7 +5,7 @@ export const config = {}
 export function configure(opts) {
   Object.assign(config, {
     ...opts,
-    mapFn: config.mapFn || opts.mapFn(config),
+    mapFn: opts.mapFn ? opts.mapFn(config) : config.mapFn,
     join: { ...config.join, ...opts.join }
   })
 }
